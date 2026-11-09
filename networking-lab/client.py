@@ -11,3 +11,7 @@ headers= {
 response = requests.post(url, json=payload, headers=headers)
 print("Status Code:", response.status_code)
 print("Response Body:", response.text)
+
+print("\nResponse Headers:")
+for key, value in response.headers.items():
+    print(f"{key}: {value}")
