@@ -1,18 +1,22 @@
 ##main.py
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from pydantic import BaseModel, ConfigDict
-from fastapi.security import APIKeyHeader
 import hmac
 
 app= FastAPI()
-api_key_header = APIKeyHeader(
-    name="X-API-key"
-)
-API_KEY = "my-super-secret-key"
+
+def get_username():
+    return "Alice"
 
 class Message(BaseModel):
     model_config = ConfigDict(extra="forbid")
     text: str
+
+@app.get('/di-test')
+def di_test(username: str = Depends(get_username)):
+    return {
+        "username": username
+    }
 
 @app.get('/')
 def home():
