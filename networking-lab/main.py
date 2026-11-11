@@ -1,7 +1,14 @@
+##main.py
 from fastapi import FastAPI
 from pydantic import BaseModel, ConfigDict
+from fastapi.security import APIKeyHeader
+import hmac
 
 app= FastAPI()
+api_key_header = APIKeyHeader(
+    name="X-API-key"
+)
+API_KEY = "my-super-secret-key"
 
 class Message(BaseModel):
     model_config = ConfigDict(extra="forbid")
