@@ -22,6 +22,15 @@ def get_greeting(name: str):
     print("Executing get_greeting")
     return f"Hello, {name}!"
 
+@app.get("/users/{user_id}")
+def get_user(user_id: int):
+    print(f"Received user_id: {user_id}")
+    return {"user_id": user_id}
+
+@app.get("/products")
+def get_products(user_id: int):
+    print(f"Received user_id: {user_id}")
+    return {"user_id": user_id}
 
 @app.get("/greeting")
 def greeting(message: str = Depends(get_greeting)):
