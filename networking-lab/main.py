@@ -16,6 +16,13 @@ def get_username():
     print("Executing get_username dependency")
     return "Alice"
 
+def get_resource():
+    print("Opening resource...")
+    try:
+        yield "My resource"
+    finally:
+        print("Closing resource...")
+
 def get_current_user(username: str = Depends(get_username)):
     return {
         "username": username
@@ -95,3 +102,14 @@ def user_dashboard(profile: dict = Depends(get_user_profile),settings: dict = De
         "profile": profile,
         "settings": settings
     }
+
+@app.get("/resource")
+def resource(value: str = Depends(get_resource)):
+    print("Executing'resource' endpoint")
+    return {"resource": value}
+
+@app.get("/error-test")
+def error_test(value: str = Depends(get_resource)):
+    print("Executing endpoint")
+    raise ValueError("Something went wrong")
+
