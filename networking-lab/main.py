@@ -23,6 +23,14 @@ def get_resource():
     finally:
         print("Closing resource...")
 
+def dependency_a(resource: str = Depends(get_resource)):
+    print("Executing dependency A")
+    return resource
+
+def dependency_b(resource: str = Depends(get_resource, use_cache=False)):
+    print("Executing dependency B")
+    return resource
+
 def get_current_user(username: str = Depends(get_username)):
     return {
         "username": username
@@ -104,7 +112,7 @@ def user_dashboard(profile: dict = Depends(get_user_profile),settings: dict = De
     }
 
 @app.get("/resource")
-def resource(value: str = Depends(get_resource)):
+def resource(value: str = Depends(get_resource, scope="function")):
     print("Executing'resource' endpoint")
     return {"resource": value}
 
@@ -112,4 +120,12 @@ def resource(value: str = Depends(get_resource)):
 def error_test(value: str = Depends(get_resource)):
     print("Executing endpoint")
     raise ValueError("Something went wrong")
+
+@app.get("/resource-test")
+def resource_test(a: str = Depends(dependency_a),b: str = Depends(dependency_b)):
+    print("Executing endpoint")
+    return {
+        "a": a,
+        "b": b
+    }
 
