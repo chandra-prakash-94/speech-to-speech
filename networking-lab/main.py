@@ -12,6 +12,10 @@ def get_shared_user():
     print("Executing shared user.")
     return {"username" : "Alice"}
 
+def fake_get_shared_user():
+    print("Executing fake shared user.")
+    return {"username" : "Bob"}
+
 def get_username():
     print("Executing get_username dependency")
     return "Alice"
@@ -128,4 +132,6 @@ def resource_test(a: str = Depends(dependency_a),b: str = Depends(dependency_b))
         "a": a,
         "b": b
     }
+
+
 
