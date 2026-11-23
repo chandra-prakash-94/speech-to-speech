@@ -18,3 +18,10 @@ def test_profile(override_user):
     assert response.json()=={
         "profile":{"username":"Bob"}
     }
+
+def test_real_profile():
+    response = client.get('/profile')
+    assert response.status_code == 200
+    assert response.json() == {
+    "profile": {"username": "Alice"}
+}
