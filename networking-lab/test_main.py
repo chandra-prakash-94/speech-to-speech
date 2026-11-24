@@ -25,3 +25,7 @@ def test_real_profile():
     assert response.json() == {
     "profile": {"username": "Alice"}
 }
+
+def test_nonexistent_endpoint():
+    response = client.get("/nonexistent")
+    assert response.status_code == 404
